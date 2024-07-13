@@ -14,7 +14,7 @@ Each numeric key on the old phone keypad maps to multiple alphabetical letters, 
 2. **OldPhone Class (`OldPhone.cs`)**:
    - Contains the `OldPhonePad(string input)` method which:
 	 - Prepare old phone keypad mapping with input digits for alphabetical letters.
-		`
+		```
 		{ '2', "ABC" },
 		{ '3', "DEF" },
 		{ '4', "GHI" },
@@ -23,7 +23,7 @@ Each numeric key on the old phone keypad maps to multiple alphabetical letters, 
 		{ '7', "PQRS" },
 		{ '8', "TUV" },
 		{ '9', "WXYZ" }
-		`
+		```
 	 - Iterates through the input characters:
        - Counts consecutive occurrences of the same key.
        - Retrieves the correct letters from the keypad mapping based on the current count and input character using `GetCharFromKeypad` method.
@@ -55,9 +55,9 @@ To run the program:
 - Verify edge cases such as empty inputs, cycles and backspaces on empty result.
 
 ## Example Usage
-
+```
 string input = "227*#"; 
 var result = OldPhone.OldPhonePad(input);
 Console.WriteLine($"Output: {result}"); // Prints "B"
-
+```
 
