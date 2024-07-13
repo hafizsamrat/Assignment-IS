@@ -29,15 +29,31 @@ Each numeric key on the old phone keypad maps to multiple alphabetical letters, 
        - Retrieves the correct letters from the keypad mapping based on the current count and input character using `GetCharFromKeypad` method.
 		 - Handles cycling through letters on repeated same key presses without a pause (`2222` -> `A -> B -> C -> A`).
        - `*` acts as a backspace, removing the last character if any.
-	   - `#` indicates the end of input processing and send the prepared text.
+	   - `#` indicates the end of input processing and sends the prepared text.
 
-3. **Unit Tests (`OldPhoneTest.cs`)**:
+4. **Unit Tests (`OldPhoneTest.cs`)**:
    - Contains Xunit tests to verify the functionality of the `OldPhonePad` method with various input scenarios.
    - Tests cover:
      - Normal input conversions (`33#`, `227*#`, `4433555 555666#`).
      - Handling of backspace characters (`*`).
      - Cycling through multiple characters on the same key (`2222#`, `222233333444444#`).
      - Edge cases (`#`, `**#`, `*3*#`).
+    
+### Choosing `StringBuilder` Over `string`
+
+- **Efficiency**: `StringBuilder` is used instead of `string` because it is more efficient for scenarios where multiple modifications to a string are required. Since strings in C# are immutable, each modification creates a new string, which is inefficient in terms of time and memory. `StringBuilder` allows for mutable string operations, providing better performance.
+
+## Complexity Analysis
+
+### Time Complexity
+
+- **Overall Time Complexity**: O(N), where N is the length of the input string. Each character in the input is processed once.
+
+### Space Complexity
+
+- **Output StringBuilder**: O(N), to store the resulting output message.
+- **Dictionary**: O(1).
+
 
 ## Running the Program
 
