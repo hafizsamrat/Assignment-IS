@@ -1,79 +1,66 @@
-# ASSIGNMENT-IS
+# Old Phone Keypad Converter
 
-This program converts input from an old phone keypad into the corresponding text message. 
-Each numeric key on the old phone keypad maps to multiple alphabetical letters, and pressing a key multiple times cycles through its letters.
+This program converts input from an old phone keypad into text messages. Each number key on an old phone represents multiple alphabetical letters, 
+and pressing a key multiple times cycles through its letters.
 
+## Implementation Overview
 
-## Implementation Steps
+### Main Program (`Program.cs`)
+- Reads input from the console until an empty line is entered.
+- The input consists of numbers (2-9), spaces, and ends with `#`.
+- Calls the `OldPhonePad(string input)` method from the `OldPhone.cs` class to process the input and print the result.
 
-1. **Main Program (`Program.cs`)**:
-   - Reads input from the console until an empty line is entered.
-   - The input string consists of numbers (2-9), spaces between numbers, and ends with `#`.
-   - Calls the `OldPhonePad(string input)` method from the `OldPhone.cs` class to process the input and print the result.
+### OldPhone Class (`OldPhone.cs`)
+- Contains the `OldPhonePad(string input)` method which:
+  - Maps digits to their corresponding letters on the old phone keypad:
+    ```csharp
+    { '2', "ABC" },
+    { '3', "DEF" },
+    { '4', "GHI" },
+    { '5', "JKL" },
+    { '6', "MNO" },
+    { '7', "PQRS" },
+    { '8', "TUV" },
+    { '9', "WXYZ" }
+    ```
+  - Iterates through the input characters:
+    - Counts consecutive occurrences of the same key.
+    - Retrieves the correct letter based on the count and input character.
+    - Handles cycling through letters on repeated key presses (e.g., `2222` -> `A -> B -> C -> A`).
+    - `*` acts as a backspace, removing the last character if any.
+    - `#` indicates the end of input processing and outputs the text.
 
-2. **OldPhone Class (`OldPhone.cs`)**:
-   - Contains the `OldPhonePad(string input)` method which:
-	 - Prepare old phone keypad mapping with input digits for alphabetical letters.
-		```
-		{ '2', "ABC" },
-		{ '3', "DEF" },
-		{ '4', "GHI" },
-		{ '5', "JKL" },
-		{ '6', "MNO" },
-		{ '7', "PQRS" },
-		{ '8', "TUV" },
-		{ '9', "WXYZ" }
-		```
-	 - Iterates through the input characters:
-       - Counts consecutive occurrences of the same key.
-       - Retrieves the correct letters from the keypad mapping based on the current count and input character using `GetCharFromKeypad` method.
-		 - Handles cycling through letters on repeated same key presses without a pause (`2222` -> `A -> B -> C -> A`).
-       - `*` acts as a backspace, removing the last character if any.
-	   - `#` indicates the end of input processing and sends the prepared text.
+### Unit Tests (`OldPhoneTest.cs`)
+- Contains tests using Xunit to verify the functionality of the `OldPhonePad` method with various inputs.
+- Tests cover:
+  - Normal input conversions (e.g., `33#`, `227*#`, `4433555 555666#`).
+  - Handling of backspace (`*`).
+  - Cycling through multiple characters on the same key (e.g., `2222#`, `222233333444444#`).
+  - Edge cases (`#`, `**#`, `*3*#`).
 
-4. **Unit Tests (`OldPhoneTest.cs`)**:
-   - Contains Xunit tests to verify the functionality of the `OldPhonePad` method with various input scenarios.
-   - Tests cover:
-     - Normal input conversions (`33#`, `227*#`, `4433555 555666#`).
-     - Handling of backspace characters (`*`).
-     - Cycling through multiple characters on the same key (`2222#`, `222233333444444#`).
-     - Edge cases (`#`, `**#`, `*3*#`).
-    
-### Choosing `StringBuilder` Over `string`
-
-- **Efficiency**: `StringBuilder` is used instead of `string` because it is more efficient for scenarios where multiple modifications to a string are required. Since strings in C# are immutable, each modification creates a new string, which is inefficient in terms of time and memory. `StringBuilder` allows for mutable string operations, providing better performance.
+## Why Use StringBuilder?
+- **Efficiency**: `StringBuilder` is more efficient for multiple modifications to a string. Strings in C# are immutable, meaning each modification creates a new string, which is inefficient. `StringBuilder` allows for efficient, mutable string operations.
 
 ## Complexity Analysis
 
 ### Time Complexity
-
-- **Overall Time Complexity**: O(N), where N is the length of the input string. Each character in the input is processed once.
+- **Overall Time Complexity**: `O(N)`, where `N` is the length of the input string. Each character is processed once.
 
 ### Space Complexity
-
-- **Output StringBuilder**: O(N), to store the resulting output message.
-- **Dictionary**: O(1).
-
+- **Output StringBuilder**: `O(N)`, to store the resulting output message.
+- **Dictionary**: `O(1)`.
 
 ## Running the Program
 
-To run the program:
 1. Ensure you have a C# development environment set up.
 2. Clone or download the project files.
 3. Open the solution in your IDE (e.g., Visual Studio).
 4. Build and run the `Program.cs` file.
 5. Enter inputs directly into the console and observe the converted outputs.
 
-## Test Cases
-
-- Ensure the correctness of the conversion logic across various input scenarios.
-- Validate handling of backspace and cyclic key presses.
-- Verify edge cases such as empty inputs, cycles and backspaces on empty result.
-
 ## Example Usage
-```
+```csharp
 string input = "227*#"; 
 var result = OldPhone.OldPhonePad(input);
 Console.WriteLine($"Output: {result}"); // Prints "B"
 ```
-
